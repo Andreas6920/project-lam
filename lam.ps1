@@ -1,30 +1,38 @@
 ﻿
 CLS
 #Preparing modules
-    write-host "Checking system requirements"  
+write-host "Checking system requirements" -f green
+sleep -s 2  
+write-host "`tChecking modules..." -f green  
     if (!(Get-Module -ListAvailable -Name ImportExcel)) 
-    {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
-    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -out-null;
+    {write-host "`t`tModule not found! Installing..." -f green;
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; sleep -s 1;
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -out-null; sleep -s 1;
     Install-Module -Name ImportExcel -Force;}
 
 #Excel sheet
+write-host "`tCreating directory for output..." -f green
     new-item -Path "c:\test" -ItemType Directory -ea SilentlyContinue | Out-Null
     $date = get-date -f "yyyy-MM-dd-HH.mm.ss"
     sleep -s 1
     $file = "C:\test\$date.xlsm"
+write-host "`tDownloading template..." -f green
     Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel.xlsm" -OutFile $file -UseBasicParsing
-    
+    sleep -s 1
 
 write-host "Initializing:" -f green
-Write-Host "Insert link:" -nonewline;
-$url = Read-Host " " 
-write-host "`tpulling data..(this may take a while)" -f yellow
+sleep -s 2
+Write-Host "`tInsert link here:" -nonewline -f Green; 
+    $url = Read-Host " "
+write-host "`tThanks..." -f green
+sleep -s 1 
+write-host "`tPulling data..(this may take a while)" -f green
     #$link = "https://www.boliga.dk/salg/resultater?propertyType=3&salesDateMin=2018&zipcodeFrom=2610&zipcodeTo=2610&page=1&searchTab=1&sort=date-d&pageSize=1000"
     $link = $url
     $scrape = (Invoke-WebRequest -uri $link).Allelements
     $antal = ($scrape | where class -match "table-row white-background|table-row gray-background").Count -1
 
-write-host "`tpicking demanded data.." -f yellow
+write-host "`tSorting data..." -f green
     #$adresse = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '\<.*',""}).Trim()
     #$by = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '.*\"">',""}).Trim()
     $fulladdress = (($scrape | where data-gtm -eq "sales_address").innerHTML | Foreach-object {$_ -replace '\<.*>',","})
@@ -40,18 +48,18 @@ write-host "`tpicking demanded data.." -f yellow
     
     
 
-write-host "`tPreparing data for Excel.." -f yellow
-$oversigt = @();
-0..$antal | % {$oversigt += New-Object -TypeName psobject -Property @{`
-Adresse=$fulladdress[$_].Trim();`
-Købesum=$Købesum[$_];`
-Salgsdato=$Salgsdato[$_];`
-Boligtype=$Boligtype[$_];`
-KRM2=$KRM2[$_];`
-Værelser=$Værelser[$_];`
-M2=$M2[$_];`
-Byggeår=$Byggeår[$_];`
+write-host "`tPreparing data for Excel..." -f green
+    $oversigt = @();
+    0..$antal | % {$oversigt += New-Object -TypeName psobject -Property @{`
+    Adresse=$fulladdress[$_].Trim();`
+    Købesum=$Købesum[$_];`
+    Salgsdato=$Salgsdato[$_];`
+    Boligtype=$Boligtype[$_];`
+    KRM2=$KRM2[$_];`
+    Værelser=$Værelser[$_];`
+    M2=$M2[$_];`
+    Byggeår=$Byggeår[$_];`
  
-}}
+    }}
 
 $oversigt | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
