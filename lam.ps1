@@ -25,7 +25,10 @@ write-host "`t`tThanks! Preparing system:" -f green
 Start-Sleep -Seconds 1
 #Preparing modules
 write-host "`t`t`t- Checking system requirements..." -f green
-sleep -s 2  
+    $keyPath = 'Registry::HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Internet Explorer\Main'
+    if (!(Test-Path $keyPath)) { New-Item $keyPath -Force | Out-Null }
+    Set-ItemProperty -Path $keyPath -Name "DisableFirstRunCustomize" -Value 1
+sleep -s 3  
 write-host "`t`t`t- Checking modules..." -f green  
     if (!(Get-Module -ListAvailable -Name ImportExcel)) 
     {write-host "`t`t`t`t- Module not found! Installing..." -f green;
