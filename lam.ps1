@@ -1,18 +1,26 @@
 ﻿
 CLS
-#preparing modules
+#Preparing modules
     write-host "Checking system requirements"  
     if (!(Get-Module -ListAvailable -Name ImportExcel)) 
     {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -out-null;
     Install-Module -Name ImportExcel -Force;}
 
+#Excel sheet
+    new-item -Path "c:\test" -ItemType Directory -ea SilentlyContinue | Out-Null
+    $date = get-date -f "yyyy-MM-dd-HH.mm.ss"
+    sleep -s 1
+    $file = "C:\test\$date.xlsm"
+    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel.xlsm" -OutFile $file -UseBasicParsing
     
 
 write-host "Initializing:" -f green
-
+Write-Host "Insert link:" -nonewline;
+$url = Read-Host " " 
 write-host "`tpulling data..(this may take a while)" -f yellow
-    $link = "https://www.boliga.dk/salg/resultater?propertyType=3&salesDateMin=2018&zipcodeFrom=2610&zipcodeTo=2610&page=1&searchTab=1&sort=date-d&pageSize=1000"
+    #$link = "https://www.boliga.dk/salg/resultater?propertyType=3&salesDateMin=2018&zipcodeFrom=2610&zipcodeTo=2610&page=1&searchTab=1&sort=date-d&pageSize=1000"
+    $link = $url
     $scrape = (Invoke-WebRequest -uri $link).Allelements
     $antal = ($scrape | where class -match "table-row white-background|table-row gray-background").Count -1
 
@@ -46,4 +54,4 @@ Byggeår=$Byggeår[$_];`
  
 }}
 
-$oversigt | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path "C:\test\Eksempel.xlsm" -StartRow 2 -NoHeader -WorksheetName Boliga -Show
+$oversigt | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
