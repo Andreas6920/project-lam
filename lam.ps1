@@ -30,7 +30,7 @@ write-host "`t`t`t- Checking modules..." -f green
     if (!(Get-Module -ListAvailable -Name ImportExcel)) 
     {write-host "`t`t`tModule not found! Installing..." -f green;
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; sleep -s 1;
-    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -out-null; sleep -s 1;
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | out-null; sleep -s 1;
     Install-Module -Name ImportExcel -Force;}
 
 #Excel sheet
