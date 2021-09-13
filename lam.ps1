@@ -1,38 +1,52 @@
 ﻿
 CLS
+
+$intro =
+"
+  ______              _  _____                                
+ |  ____|            | |/ ____|                               
+ | |__  __  _____ ___| | (___   ___ _ __ __ _ _ __   ___ _ __ 
+ |  __| \ \/ / __/ _ \ |\___ \ / __| '__/ _`  | '_ \ / _ \ '__|
+ | |____ >  < (_|  __/ |____) | (__| | | (_| | |_) |  __/ |   
+ |______/_/\_\___\___|_|_____/ \___|_|  \__,_| .__/ \___|_|   
+                                             | |              
+                                             |_|              "
+cls
+write-host $intro -ForegroundColor Magenta
 #Preparing modules
-write-host "Checking system requirements" -f green
+
+write-host "`tChecking system requirements" -f green
 sleep -s 2  
-write-host "`tChecking modules..." -f green  
+write-host "`t`tChecking modules..." -f green  
     if (!(Get-Module -ListAvailable -Name ImportExcel)) 
-    {write-host "`t`tModule not found! Installing..." -f green;
+    {write-host "`t`t`tModule not found! Installing..." -f green;
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; sleep -s 1;
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -out-null; sleep -s 1;
     Install-Module -Name ImportExcel -Force;}
 
 #Excel sheet
-write-host "`tCreating directory for output..." -f green
+write-host "`t`tCreating directory for output..." -f green
     new-item -Path "c:\test" -ItemType Directory -ea SilentlyContinue | Out-Null
     $date = get-date -f "yyyy-MM-dd-HH.mm.ss"
     sleep -s 1
     $file = "C:\test\$date.xlsm"
-write-host "`tDownloading template..." -f green
+write-host "`t`tDownloading template..." -f green
     Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel.xlsm" -OutFile $file -UseBasicParsing
     sleep -s 1
 
-write-host "Initializing:" -f green
+write-host "`tInitializing:" -f green
 sleep -s 2
-Write-Host "`tInsert link here:" -nonewline -f Green; 
+Write-Host "`t`tInsert link here" -nonewline -f Green; 
     $url = Read-Host " "
-write-host "`tThanks..." -f green
+write-host "`t`tThanks..." -f green
 sleep -s 1 
-write-host "`tPulling data..(this may take a while)" -f green
+write-host "`t`tPulling data..(this may take a while)" -f green
     #$link = "https://www.boliga.dk/salg/resultater?propertyType=3&salesDateMin=2018&zipcodeFrom=2610&zipcodeTo=2610&page=1&searchTab=1&sort=date-d&pageSize=1000"
     $link = $url
     $scrape = (Invoke-WebRequest -uri $link).Allelements
     $antal = ($scrape | where class -match "table-row white-background|table-row gray-background").Count -1
 
-write-host "`tSorting data..." -f green
+write-host "`t`tSorting data..." -f green
     #$adresse = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '\<.*',""}).Trim()
     #$by = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '.*\"">',""}).Trim()
     $fulladdress = (($scrape | where data-gtm -eq "sales_address").innerHTML | Foreach-object {$_ -replace '\<.*>',","})
@@ -48,7 +62,7 @@ write-host "`tSorting data..." -f green
     
     
 
-write-host "`tPreparing data for Excel..." -f green
+write-host "`t`tPreparing data for Excel..." -f green
     $oversigt = @();
     0..$antal | % {$oversigt += New-Object -TypeName psobject -Property @{`
     Adresse=$fulladdress[$_].Trim();`
