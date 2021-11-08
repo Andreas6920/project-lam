@@ -19,6 +19,7 @@ write-host $intro -ForegroundColor Magenta
 Do {
 Write-Host "`tInsert link here" -nonewline -f Green; 
 # Example: "https://www.boliga.dk/salg/resultater?propertyType=3&salesDateMin=2018&zipcodeFrom=2610&zipcodeTo=2610&page=1&searchTab=1&sort=date-d"
+    #$url = Read-Host " "
     $url = Read-Host " "
 } While ($url -notmatch "boliga.dk/")
 if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=1000"}
@@ -62,7 +63,7 @@ write-host "`t`t`t- Sorting data..." -f green
     #$by = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '.*\"">',""}).Trim()
     $fulladdress = (($scrape | where data-gtm -eq "sales_address").innerHTML | Foreach-object {$_ -replace '\<.*>',", "})
     $Købesum = ($scrape | where class -eq "text-nowrap" | where innertext -match "kr.").innerText
-    $Salgsdato = (($scrape | where class -eq "text-nowrap" | where innerHTML -match "\d{2}-\d{2}-\d{4}").innerText | Foreach-object {$_ -replace '-','/'}).Trim()
+    $Salgsdato = (($scrape | where class -eq "text-nowrap" | where innerHTML -match "\d{2}-\d{2}-\d{4}").innerText | ForEach-Object{get-date $_ -Format "dd-mm-yy"})
     $Boligtype = (($scrape | where class -eq "property-3 hide-text").innerText | Foreach-object {$_ -replace 'EEjerlejlighed',''}).Trim()
     $KRM2 = (($scrape | where class -eq "text-nowrap mt-1" | Where innerText -Match "kr\/m").innerText| Foreach-object {$_ -replace 'kr\/m²',''}).Trim()
     $Værelser = ($scrape | where class -eq "table-col text-center" | where outerText -match "(?<!\S)\d(?!\S)").InnerText
@@ -86,4 +87,4 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
  
     }}
 
-$oversigt | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
+$oversigt # | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
