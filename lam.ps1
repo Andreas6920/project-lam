@@ -62,7 +62,7 @@ write-host "`t`t`t- Sorting data..." -f green
     #$adresse = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '\<.*',""}).Trim()
     #$by = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '.*\"">',""}).Trim()
     $fulladdress = (($scrape | where data-gtm -eq "sales_address").innerHTML | Foreach-object {$_ -replace '\<.*>',", "})
-    $Købesum = ($scrape | where class -eq "text-nowrap" | where innertext -match "kr.").innerText
+    $Købesum = ($scrape | where class -eq "text-nowrap" | where innertext -match "kr.").innerText | Foreach-object {$_ -replace ' kr.',''}
     $Salgsdato = (($scrape | where class -eq "text-nowrap" | where innerHTML -match "\d{2}-\d{2}-\d{4}").innerText | ForEach-Object{get-date $_ -Format "dd-MM-yy"})
     $Boligtype = (($scrape | where class -eq "property-3 hide-text").innerText | Foreach-object {$_ -replace 'EEjerlejlighed',''}).Trim()
     $KRM2 = (($scrape | where class -eq "text-nowrap mt-1" | Where innerText -Match "kr\/m").innerText| Foreach-object {$_ -replace 'kr\/m²',''}).Trim()
