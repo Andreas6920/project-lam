@@ -1,4 +1,3 @@
-﻿
 CLS
 
 $intro =
@@ -11,7 +10,7 @@ $intro =
  |______/_/\_\___\___|_|_____/ \___|_|  \__,_| .__/ \___|_|   
                                              | |              
                                              |_|              
-`tBETA VERSION 0.1
+`tBETA VERSION 0.2
 
 "
 cls
@@ -22,7 +21,7 @@ Write-Host "`tInsert link here" -nonewline -f Green;
     #$url = Read-Host " "
     $url = Read-Host " "
 } While ($url -notmatch "boliga.dk/")
-if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=1000"}
+if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=300"}
 
 write-host "`t`tThanks! Preparing system:" -f green
 Start-Sleep -Seconds 1
@@ -46,7 +45,7 @@ write-host "`t`t`t- Creating directory for output..." -f green
     sleep -s 1
     $file = "C:\ExcelScraper\$date.xlsm"
 write-host "`t`t`t- Downloading template..." -f green
-    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel.xlsm" -OutFile $file -UseBasicParsing
+    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Ny-Eksempel.xlsm" -OutFile $file -UseBasicParsing
     sleep -s 1
 
 write-host "`t`tInitializing Program:" -f green
