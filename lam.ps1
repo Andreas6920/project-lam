@@ -45,7 +45,7 @@ write-host "`t`t`t- Creating directory for output..." -f green
     sleep -s 1
     $file = "C:\ExcelScraper\$date.xlsm"
 write-host "`t`t`t- Downloading template..." -f green
-    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel.xlsm" -OutFile $file -UseBasicParsing
+    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/My-Eksempel.xlsm" -OutFile $file -UseBasicParsing
     sleep -s 1
 
 write-host "`t`tInitializing Program:" -f green
