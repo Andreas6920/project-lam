@@ -1,3 +1,4 @@
+
 CLS
 
 $intro =
@@ -11,7 +12,6 @@ $intro =
                                              | |              
                                              |_|              
 `tBETA VERSION 0.2
-
 "
 cls
 write-host $intro -ForegroundColor Magenta
@@ -21,7 +21,7 @@ Write-Host "`tInsert link here" -nonewline -f Green;
     #$url = Read-Host " "
     $url = Read-Host " "
 } While ($url -notmatch "boliga.dk/")
-if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=1000"}
+if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=300"}
 
 write-host "`t`tThanks! Preparing system:" -f green
 Start-Sleep -Seconds 1
@@ -87,3 +87,4 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
     }}
 
 $oversigt  | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
+
