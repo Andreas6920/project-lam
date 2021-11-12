@@ -74,7 +74,7 @@ write-host "`t`t`t- Sorting data..." -f green
 
 write-host "`t`t`t- Preparing data for Excel..." -f green
     $oversigt = @();
-    0..$antal | % = $oversigt += New-Object -TypeName psobject -Property @{`
+    0..$antal | % { $oversigt += New-Object -TypeName psobject -Property @{`
     Adresse=$fulladdress[$_].Trim();`
     Koebesum=$Koebesum[$_];`
     Salgsdato=$Salgsdato[$_];`
@@ -84,6 +84,6 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
     M2=$M2[$_];`
     Byggeaar=$Byggeaar[$_];`
  
-    }
+    }}
 
 $oversigt  | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
