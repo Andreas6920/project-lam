@@ -80,9 +80,9 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
     Salgsdato=$Salgsdato[$_];`
     Boligtype=$Boligtype[$_];`
     KRM2=$KRM2[$_];`
-    Værelser=$Vaerelser[$_];`
+    Vaerelser=$Vaerelser[$_];`
     M2=$M2[$_];`
-    Byggeår=$Byggeaar[$_];`
+    Byggeaar=$Byggeaar[$_];`
  
     }}
 
