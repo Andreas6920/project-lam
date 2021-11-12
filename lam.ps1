@@ -61,13 +61,13 @@ write-host "`t`t`t- Sorting data..." -f green
     #$adresse = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '\<.*',""}).Trim()
     #$by = (($scrape | where data-gtm -eq "sales_address").innerHTML| Foreach-object {$_ -replace '.*\"">',""}).Trim()
     $fulladdress = (($scrape | where data-gtm -eq "sales_address").innerHTML | Foreach-object {$_ -replace '\<.*>',", "})
-    $Købesum = ($scrape | where class -eq "text-nowrap" | where innertext -match "kr.").innerText | Foreach-object {$_ -replace ' kr.',''}
+    $Koebesum = ($scrape | where class -eq "text-nowrap" | where innertext -match "kr.").innerText | Foreach-object {$_ -replace ' kr.',''}
     $Salgsdato = (($scrape | where class -eq "text-nowrap" | where innerHTML -match "\d{2}-\d{2}-\d{4}").innerText)
     $Boligtype = (($scrape | where class -eq "property-3 hide-text").innerText | Foreach-object {$_ -replace 'EEjerlejlighed',''}).Trim()
     $KRM2 = (($scrape | where class -eq "text-nowrap mt-1" | Where innerText -Match "kr\/m").innerText| Foreach-object {$_ -replace 'kr\/m²',''}).Trim()
-    $Værelser = ($scrape | where class -eq "table-col text-center" | where outerText -match "(?<!\S)\d(?!\S)").InnerText
+    $Vaerelser = ($scrape | where class -eq "table-col text-center" | where outerText -match "(?<!\S)\d(?!\S)").InnerText
     $M2 = (($scrape | where class -eq "text-nowrap" | where innerText -match "m²").innerText | Foreach-object {$_ -replace 'm²',''}).Trim()
-    $Byggeår = ($scrape | where class -eq "table-col text-center" | where innertext -match "^16\d{2}|^17\d{2}|^18\d{2}|^19\d{2}|^20\d{2}").innerText
+    $Byggeaar = ($scrape | where class -eq "table-col text-center" | where innertext -match "^16\d{2}|^17\d{2}|^18\d{2}|^19\d{2}|^20\d{2}").innerText
     # %
     # AKTUEL VÆRDI
     
@@ -76,13 +76,13 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
     $oversigt = @();
     0..$antal | % {$oversigt += New-Object -TypeName psobject -Property @{`
     Adresse=$fulladdress[$_].Trim();`
-    Købesum=$Købesum[$_];`
+    Købesum=$Koebesum[$_];`
     Salgsdato=$Salgsdato[$_];`
     Boligtype=$Boligtype[$_];`
     KRM2=$KRM2[$_];`
-    Værelser=$Værelser[$_];`
+    Værelser=$Vaerelser[$_];`
     M2=$M2[$_];`
-    Byggeår=$Byggeår[$_];`
+    Byggeår=$Byggeaar[$_];`
  
     }}
 
