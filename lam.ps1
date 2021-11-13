@@ -76,13 +76,13 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
     $oversigt = @();
     0..$antal | % { $oversigt += New-Object -TypeName psobject -Property @{`
     Adresse=$fulladdress[$_].Trim();`
-    Koebesum=$Koebesum[$_];`
+    Købesum=$Koebesum[$_];`
     Salgsdato=$Salgsdato[$_];`
     Boligtype=$Boligtype[$_];`
     KRM2=$KRM2[$_];`
-    Vaerelser=$Vaerelser[$_];`
+    Værelser=$Vaerelser[$_];`
     M2=$M2[$_];`
-    Byggeaar=$Byggeaar[$_];`
+    Byggeår=$Byggeaar[$_];`
  
     }}
 
