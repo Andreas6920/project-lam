@@ -21,7 +21,7 @@ Write-Host "`tInsert link here" -nonewline -f Green;
     #$url = Read-Host " "
     $url = Read-Host " "
 } While ($url -notmatch "boliga.dk/")
-if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=300"}
+if ($url -notmatch "&pageSize="){$url = $url+"&pageSize=1000"}
 
 write-host "`t`tThanks! Preparing system:" -f green
 Start-Sleep -Seconds 1
