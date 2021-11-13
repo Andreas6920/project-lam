@@ -86,4 +86,4 @@ write-host "`t`t`t- Preparing data for Excel..." -f green
  
     }}
 
-$oversigt  | select adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
+$oversigt  | select Adresse,Købesum,Salgsdato,Boligtype,KRM2,Værelser,M2,Byggeår | Export-Excel -path $file -StartRow 2 -NoHeader -WorksheetName Boliga -Show
