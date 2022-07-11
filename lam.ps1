@@ -10,7 +10,7 @@ $intro =
  |______/_/\_\___\___|_|_____/ \___|_|  \__,_| .__/ \___|_|   
                                              | |              
                                              |_|              
-`tBETA VERSION 0.2
+`tBETA VERSION 0.3
 
 "
 cls
@@ -65,9 +65,9 @@ write-host "`t`t`t- Sorting data..." -f green
     $Salgsdato = (($scrape | where class -eq "text-nowrap" | where innerHTML -match "\d{2}-\d{2}-\d{4}").innerText)
     $Boligtype = (($scrape | where class -eq "property-3 hide-text").innerText | Foreach-object {$_ -replace 'EEjerlejlighed',''}).Trim()
     $KRM2 = (($scrape | where class -eq "text-nowrap mt-1" | Where innerText -Match "kr\/m").innerText| Foreach-object {$_ -replace 'kr\/m²',''}).Trim()
-    $Vaerelser = ($scrape | where class -eq "table-col text-center" | where outerText -match "(?<!\S)\d(?!\S)").InnerText
+    $Vaerelser = ($scrape | where class -match "table-col.*text-center"| where outerText -match "(?<!\S)\d(?!\S)").InnerText
     $M2 = (($scrape | where class -eq "text-nowrap" | where innerText -match "m²").innerText | Foreach-object {$_ -replace 'm²',''}).Trim()
-    $Byggeaar = ($scrape | where class -eq "table-col text-center" | where innertext -match "^16\d{2}|^17\d{2}|^18\d{2}|^19\d{2}|^20\d{2}").innerText
+    $Byggeaar = ($scrape | where class -match "table-col.*text-center" | where innertext -match "^16\d{2}|^17\d{2}|^18\d{2}|^19\d{2}|^20\d{2}").innerText
     # %
     # AKTUEL VÆRDI
     
