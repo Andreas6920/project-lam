@@ -10,7 +10,7 @@ $intro =
  |______/_/\_\___\___|_|_____/ \___|_|  \__,_| .__/ \___|_|   
                                              | |              
                                              |_|              
-`tBETA VERSION 0.4
+`tBETA VERSION 0.3
 
 "
 cls
@@ -45,7 +45,7 @@ write-host "`t`t`t- Creating directory for output..." -f green
     sleep -s 1
     $file = "C:\ExcelScraper\$date.xlsm"
 write-host "`t`t`t- Downloading template..." -f green
-    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Eksempel_v2.xlsm" -OutFile $file -UseBasicParsing
+    Invoke-WebRequest -Uri "https://github.com/Andreas6920/project-lam/raw/main/Ny-Eksempel.xlsm" -OutFile $file -UseBasicParsing
     sleep -s 1
 
 write-host "`t`tInitializing Program:" -f green
